@@ -4,6 +4,10 @@
 
 Each model is defined by an Ollama [Modelfile](https://docs.ollama.com/modelfile), a plain-text recipe that takes a base model and customizes its system prompt, runtime parameters, prompt template, and seeded message history. Building a Modelfile produces a reusable, named model that runs against a native Ollama install.
 
+## 📦 Models
+
+See [**`./src/`**](./src/README.md) for the index of available custom models.
+
 ## 📓 Documentation
 
 - [**Requirements**](./docs/requirements.md)

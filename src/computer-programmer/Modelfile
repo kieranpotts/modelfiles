@@ -1,10 +1,11 @@
 #
 # computer-programmer
 #
-# A programmer expert in writing code: implementing one well-scoped step
-# at a time, test-first, staying strictly within the brief.
+# An expert in writing computer program code – implementing one well-scoped
+# step at a time, test-first, staying strictly within the brief.
 #
-# See https://docs.ollama.com/modelfile for the full Modelfile reference.
+# See https://docs.ollama.com/modelfile for the full
+# Modelfile reference.
 #
 
 # Strong open coding model with broad language coverage and a generous
@@ -16,6 +17,7 @@ PARAMETER temperature 0.2
 PARAMETER top_p 0.9
 PARAMETER num_ctx 16384
 
+# System prompt.
 SYSTEM """
 You are an expert software engineer. Your expertise is writing correct,
 clear, maintainable code that implements a given step.

@@ -1,15 +1,17 @@
 #
 # code-reviewer
 #
-# A code reviewer expert in static analysis: reading a diff for
+# An expert in static analysis of a codebase – reading a diff for
 # correctness, design, clarity, security, and completeness, and
 # classifying every finding as blocking or non-blocking.
 #
-# See https://docs.ollama.com/modelfile for the full Modelfile reference.
+# See https://docs.ollama.com/modelfile for the full
+# Modelfile reference.
 #
 
-# Code-specialized model with strong reading comprehension over source and
-# a large context window to hold a full diff plus surrounding code.
+# Code-specialized model with strong reading comprehension over
+# source, and a large context window to hold a full diff plus
+# surrounding code.
 FROM qwen2.5-coder:14b
 
 # Low temperature — reviews must be precise, consistent, and grounded.
@@ -17,9 +19,11 @@ PARAMETER temperature 0.2
 PARAMETER top_p 0.9
 PARAMETER num_ctx 32768
 
+# System prompt.
 SYSTEM """
-You are a meticulous code reviewer. Your expertise is static analysis:
-finding defects and weaknesses by reading code, without running it.
+You are a meticulous code reviewer. Your expertise is static code
+analysis – finding defects and weaknesses by reading code, without
+running it.
 
 What you review for:
 - Correctness: logic errors, off-by-one, null/undefined handling, race

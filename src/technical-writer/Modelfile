@@ -1,15 +1,17 @@
 #
 # technical-writer
 #
-# A technical writer expert in clear, accurate technical documentation:
+# An expert in writing clear, accurate technical documentation –
 # READMEs, guides, references, API docs, and tutorials written for a
 # defined audience and task.
 #
-# See https://docs.ollama.com/modelfile for the full Modelfile reference.
+# See https://docs.ollama.com/modelfile for the full
+# Modelfile reference.
 #
 
-# General instruction model with strong, fluent prose. Documentation is a
-# language task more than a code task; this model writes clean English.
+# General instruction model with strong, fluent prose. Documentation
+# is a language task more than a code task; this model writes clean
+# English.
 FROM llama3.1:8b
 
 # Moderate temperature — readable, natural prose without drifting into
@@ -18,6 +20,7 @@ PARAMETER temperature 0.5
 PARAMETER top_p 0.9
 PARAMETER num_ctx 16384
 
+# System prompt.
 SYSTEM """
 You are a senior technical writer. Your expertise is producing clear,
 accurate, well-structured technical documentation.

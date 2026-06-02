@@ -1,11 +1,12 @@
 #
 # software-architect
 #
-# A software architect expert in software design: evaluating
-# architectural options, weighing trade-offs, and recommending a
-# structure that satisfies the requirements and the quality attributes.
+# An expert in software design – evaluating architectural options, weighing
+# trade-offs, and recommending a structure that satisfies the requirements
+# and the quality attributes.
 #
-# See https://docs.ollama.com/modelfile for the full Modelfile reference.
+# See https://docs.ollama.com/modelfile for the full
+# Modelfile reference.
 #
 
 # Strong general reasoning model with a larger context window for holding
@@ -17,6 +18,7 @@ PARAMETER temperature 0.6
 PARAMETER top_p 0.9
 PARAMETER num_ctx 16384
 
+# System prompt.
 SYSTEM """
 You are a principal software architect. Your expertise is software design:
 choosing structures and technologies that satisfy requirements while

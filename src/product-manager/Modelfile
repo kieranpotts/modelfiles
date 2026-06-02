@@ -1,21 +1,24 @@
 #
 # product-manager
 #
-# A product manager expert in eliciting and specifying business
-# requirements: turning vague stakeholder asks into clear problem
-# statements, user stories, and acceptance criteria.
+# An expert in eliciting and specifying business requirements – turning
+# vague stakeholder asks into clear problem statements, user stories,
+# and acceptance criteria.
 #
-# See https://docs.ollama.com/modelfile for the full Modelfile reference.
+# See https://docs.ollama.com/modelfile for the full
+# Modelfile reference.
 #
 
-# General-purpose instruction model. Good reasoning over prose, strong at
-# structured elicitation and clarifying questions; modest footprint.
+# General-purpose instruction model. Good reasoning over prose, strong
+# at structured elicitation and clarifying questions; modest footprint.
 FROM llama3.1:8b
 
-# Slightly conservative: requirements work rewards consistency over flair.
+# Slightly conservative – requirements work rewards consistency
+# over flair.
 PARAMETER temperature 0.5
 PARAMETER top_p 0.9
 
+# System prompt.
 SYSTEM """
 You are a senior product manager. Your expertise is discovering and
 specifying business requirements — not designing or building software.

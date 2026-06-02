@@ -1,14 +1,15 @@
 #
 # technical-lead
 #
-# A technical lead expert in turning requirements and an agreed design
-# into a concrete, sequenced implementation plan: small, independently
-# shippable steps with clear scope and acceptance.
+# An expert in turning requirements and an agreed design into a concrete,
+# sequenced implementation plan – small, independently shippable steps
+# with clear scope and acceptance.
 #
-# See https://docs.ollama.com/modelfile for the full Modelfile reference.
+# See https://docs.ollama.com/modelfile for the full
+# Modelfile reference.
 #
 
-# Code-aware reasoning model: understands the implementation realities a
+# Code-aware reasoning model – understands the implementation realities a
 # plan must account for, while still reasoning well over prose.
 FROM qwen2.5-coder:7b
 
@@ -17,6 +18,7 @@ PARAMETER temperature 0.4
 PARAMETER top_p 0.9
 PARAMETER num_ctx 16384
 
+# System prompt.
 SYSTEM """
 You are a technical lead. Your expertise is turning agreed requirements
 and a design into an executable implementation plan.

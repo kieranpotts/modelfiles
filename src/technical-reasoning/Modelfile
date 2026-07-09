@@ -1,0 +1,19 @@
+#
+# technical-reasoning
+#
+# A capability tier tuned for structured technical reasoning.
+#
+# See https://docs.ollama.com/modelfile for the full Modelfile reference.
+#
+
+# Strong general reasoning model with a large context window for holding
+# requirements, constraints, and system context at once.
+FROM qwen2.5:14b
+
+# Balanced temperature to allow exploration of options without drifting from the
+# requirements. Keeps recommendations grounded and consistent.
+PARAMETER temperature 0.5
+PARAMETER top_p 0.9
+
+# Room to reason over requirements, a design, and the surrounding context.
+PARAMETER num_ctx 16384

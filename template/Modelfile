@@ -1,7 +1,9 @@
 #
 # <Model name>
 #
-# <Describe the purpose/role of this model.>
+# Describe the capability this model provides — the kind of work it is
+# tuned for. Do NOT define a role or persona; that is supplied by the
+# agent harness's system prompt.
 #
 # See https://docs.ollama.com/modelfile for the full Modelfile reference.
 #
@@ -10,18 +12,13 @@
 # (https://ollama.com/library) or a locally available base model.
 FROM <base-model>
 
-# Runtime parameters. Remove any you do not need.
+# Runtime parameters tuned for this capability. Remove any you do not need,
+# and note the rationale for your choices in comments.
 # See https://docs.ollama.com/modelfile#valid-parameters-and-values
 PARAMETER temperature 0.7
 # PARAMETER num_ctx 4096
 # PARAMETER top_p 0.9
 # PARAMETER stop "<stop-token>"
 
-# The system message that defines the model's behavior and persona.
-SYSTEM """
-<System prompt goes here.>
-"""
-
-# OPTIONAL: seed the conversation with message history.
-# MESSAGE user <example user message>
-# MESSAGE assistant <example assistant reply>
+# Do NOT add a SYSTEM block. The role and persona are defined by the agent
+# harness's system prompt, not by the model.

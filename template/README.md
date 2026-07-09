@@ -1,9 +1,10 @@
-# &lt;Model name&gt;
+# <Model name
 
-&lt;One- or two-sentence description: what this model is for.&gt;
+;One- or two-sentence description: what this model is for.
 
 - **Base model:** `<base-model>`
-- **Purpose:** &lt;What problem it solves / when to reach for it.&gt;
+- **Temperature:** `<value>` — <why this value suits the capability>.
+- **Context window:** `<value>` — <what it needs to hold>.
 
 ## Build
 

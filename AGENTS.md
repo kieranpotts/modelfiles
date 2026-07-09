@@ -2,9 +2,13 @@
 
 This repository is a collection of custom [Ollama](https://ollama.com) model
 definitions ("Modelfiles"). Each Modelfile customizes a base model — its
-system prompt, runtime parameters, prompt template, and seeded message history —
-so it can be built into a reusable named model that runs against a native
-Ollama install.
+runtime parameters, prompt template, and seeded message history — so it can be
+built into a reusable named model that runs against a native Ollama install.
+
+These models define generic **capabilities**, not roles. The role or persona is
+supplied by the agent harness's system prompt, so Modelfiles here carry no
+`SYSTEM` block. Name and describe a model by the capability it provides, not by
+a role it plays.
 
 The capitalized words REQUIRED, MUST, MUST NOT, RECOMMENDED, SHOULD,
 SHOULD NOT, OPTIONAL, and MAY are to be interpreted as described in
@@ -54,6 +58,11 @@ SHOULD NOT, OPTIONAL, and MAY are to be interpreted as described in
   to match.
 
 - A `Modelfile` MUST begin with a `FROM` instruction.
+
+- A `Modelfile` MUST NOT contain a `SYSTEM` block. The role and persona are
+  defined by the agent harness's system prompt, not by the model.
+
+- A model MUST be named for the capability it provides, not for a role.
 
 - `FROM` SHOULD reference a model available from the
   [Ollama library](https://ollama.com/library) or a locally available base model.

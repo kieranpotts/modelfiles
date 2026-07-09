@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+#
+# Compiles the custom Ollama Modelfiles from models.yaml.
+#
+# Usage: run/build [profile]
+#
+# With no argument, builds the `default` profile. Pass a profile name (eg.
+# `workstation`) to build that profile instead.
+#
+# The compiled Modelfiles are written to dist/<profile>/<model>/Modelfile.
+#
+
+# Exit immediately on error (-e), treat unset variables as errors (-u), and
+# propagate failures through pipelines (-o pipefail).
+set -euo pipefail
+
+# Resolve the project root (parent of the run/ directory) and change into it,
+# so the build works regardless of where the script is invoked from.
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+
+PROFILE="${1:-default}"
+
+python3 run/compile.py "$PROFILE"

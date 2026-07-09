@@ -1,14 +1,24 @@
 # Modelfiles
 
-This repository is a collection of custom [Ollama](https://ollama.com) model
-definitions ("Modelfiles"). Each Modelfile customizes a base model — its
-runtime parameters, prompt template, and seeded message history — so it can be
-built into a reusable named model that runs against a native Ollama install.
+This repository defines a collection of custom [Ollama](https://ollama.com)
+models. The `Modelfile` definitions are **compiled** from a single source
+config, [`models.yaml`](./src/models.yaml), by the `run/build` script.
+
+A built Modelfile customizes a base model — its runtime parameters, prompt
+template, and seeded message history — so it can be created as a reusable
+named model that runs against a native Ollama install.
 
 These models define generic **capabilities**, not roles. The role or persona is
-supplied by the agent harness's system prompt, so Modelfiles here carry no
-`SYSTEM` block. Name and describe a model by the capability it provides, not by
-a role it plays.
+expected to be supplied by the agent harness's system prompt. That's why the
+Modelfiles in this collection carry no `SYSTEM` block.
+
+`models.yaml` carries a `default` profile plus optional additional profiles.
+Each profile is self-contained. A profile defines, in full, the models and
+parameters to install on one kind of machine — eg. cloud models for a laptop,
+local models for a workstation.
+
+`./run/build [profile]` compiles the models defined for that profile to
+`dist/<profile>/<model>/Modelfile`.
 
 The capitalized words REQUIRED, MUST, MUST NOT, RECOMMENDED, SHOULD,
 SHOULD NOT, OPTIONAL, and MAY are to be interpreted as described in
@@ -16,56 +26,55 @@ SHOULD NOT, OPTIONAL, and MAY are to be interpreted as described in
 
 ## Project structure
 
+- **`run/`**:
+  Build scripts.
+
+  - **`build`**:
+    `run/build [profile]` — compiles `src/models.yaml` into Modelfiles under
+    `dist/`. Defaults to the `default` profile.
+
+  - **`compile.py`**:
+    The Python compiler invoked by `build`. Not run directly.
+
 - **`src/`**:
-  One directory per custom model.
+  Source: the model definitions and their documentation.
 
-  - **`README.md`**:
-    Index of the available custom models.
+  - **`models.yaml`**:
+    The source of truth. Defines each capability model and one or more
+    profiles (base models and parameters). `./run/build` compiles this into
+    Modelfiles.
 
-  - **`<model-name>/`**:
-    A single custom model.
-
-    - **`Modelfile`**:
-      The Ollama model definition.
-
-    - **`README.md`**:
-      What the model is for, the base model it derives from,
-      and how to build and run it.
-
-- **`template/`**:
-  Template files for defining a new model. Copy into
-  `src/<model-name>/` to start.
+- **`dist/`**:
+  Compiled output — `dist/<profile>/<model-name>/Modelfile`. Generated and
+  git-ignored; never edited by hand.
 
 ## Requirements
 
-- **`ollama`** (native install on the host).
+- **`ollama`** (native install on the host) to create and run the models.
+- **`python3`** with **PyYAML** to compile the Modelfiles from `models.yaml`.
 
 ## Rules
 
 - MUST write docs in American English.
 
-- MUST follow the `template/` structure when adding a new model.
+- Models MUST be defined in `models.yaml`. Modelfiles MUST NOT be hand-written.
+  Anything generated under `dist/` MUST NOT be edited directly.
 
-- Each custom model MUST live in its own directory under `src/`,
-  named for the model.
+- `models.yaml` MUST define a `default` profile. Each profile is
+  self-contained. Every model it defines MUST specify its own `from` (base
+  model) and parameters in full. Profiles do not inherit from one another.
 
-- The model definition file MUST be named `Modelfile` (no extension).
+- A profile compiles exactly the models it defines. Different profiles MAY
+  define different sets of models.
 
-- Each model directory MUST include a `README.md` documenting the model's
-  purpose, base model, and build/run commands.
-
-- When adding or removing a model, you MUST update the index in `src/README.md`
-  to match.
-
-- A `Modelfile` MUST begin with a `FROM` instruction.
-
-- A `Modelfile` MUST NOT contain a `SYSTEM` block. The role and persona are
-  defined by the agent harness's system prompt, not by the model.
+- A compiled `Modelfile` MUST begin with a `FROM` instruction and MUST NOT
+  contain a `SYSTEM` block. The role and persona are defined by the agent
+  harness's system prompt, not by the model.
 
 - A model MUST be named for the capability it provides, not for a role.
 
-- `FROM` SHOULD reference a model available from the
-  [Ollama library](https://ollama.com/library) or a locally available base model.
+- A `from` base model SHOULD be available from the
+  [Ollama library](https://ollama.com/library) or locally.
 
-- Only valid Modelfile instructions MAY be used: `FROM`, `PARAMETER`,
+- The compiler MAY emit only valid Modelfile instructions: `FROM`, `PARAMETER`,
   `TEMPLATE`, `SYSTEM`, `ADAPTER`, `LICENSE`, `MESSAGE`, `REQUIRES`.

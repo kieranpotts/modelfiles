@@ -1,0 +1,112 @@
+#
+# models.yaml — Configuration for the Ollama Modelfiles to be compiled.
+#
+# The `profiles` define the models and their parameters to be installed on
+# one particular machine. There MUST be at least one profile, named "default",
+# which should define Modelfiles appropriate for running on laptops and other
+# hardware that is not capable of running models locally.
+#
+
+profiles:
+
+  # The default profile uses cloud models exclusively.
+  default:
+
+    # Tuned for computer programming work.
+    computer-programming:
+
+      # Ollama's headline agentic coding cloud model.
+      from: kimi-k2.7-code:cloud
+
+      # Low temperature for correct, deterministic output.
+      temperature: 0.2
+
+      # Nucleus sampling. Ollama default.
+      top_p: 0.9
+
+      # Generous context window for the most demanding of coding tasks.
+      num_ctx: 32768
+
+    # Tuned for structured technical reasoning.
+    technical-reasoning:
+
+      # A reasoning-first cloud model with a very large (~1M token) context.
+      # The "flash" variant keeps it efficient rather than frontier-slow.
+      from: deepseek-v4-flash:cloud
+
+      # Balanced temperature to explore options without drifting from requirements.
+      temperature: 0.5
+
+      # Nucleus sampling. Ollama default.
+      top_p: 0.9
+
+      # Room to reason over requirements, a design, and system context.
+      num_ctx: 16384
+
+    # Tuned for writing clear, accurate English prose.
+    prose-writing:
+
+      # A general-purpose instruction cloud model that is known for outputting
+      #  strong, fluent prose. Frontier scale is not needed for this use case.
+      from: gemma4:cloud
+
+      # Moderate temperature for readable, natural prose without drifting
+      # into invention — accuracy matters more than style.
+      temperature: 0.5
+
+      # Nucleus sampling. Ollama default.
+      top_p: 0.9
+
+      # Room to hold source material and surrounding documentation.
+      num_ctx: 16384
+
+  # The workstation profile uses locally-installed models that run
+  # comfortably on 32GB VRAM.
+  workstation:
+
+    # Tuned for computer programming work.
+    computer-programming:
+
+      # Strong open coding model with broad language coverage.
+      from: qwen2.5-coder:14b
+
+      # Low temperature for correct, deterministic output.
+      temperature: 0.2
+
+      # Nucleus sampling. Ollama default.
+      top_p: 0.9
+
+      # Generous context window for the most demanding of coding tasks.
+      num_ctx: 32768
+
+    # Tuned for structured technical reasoning.
+    technical-reasoning:
+
+      # Strong general-purpose reasoning model.
+      from: qwen2.5:14b
+
+      # Balanced temperature to explore options without drifting from requirements.
+      temperature: 0.5
+
+      # Nucleus sampling. Ollama default.
+      top_p: 0.9
+
+      # Large context window, room to reason over requirements etc.
+      num_ctx: 16384
+
+    # Tuned for writing clear, accurate English prose.
+    prose-writing:
+
+      # General-purpose instruction model with strong, fluent prose output
+      # and good reasoning over natural language.
+      from: llama3.1:8b
+
+      # Moderate temperature to output readable, nature prose without drifting
+      # into inventions — accuracy matters more than style.
+      temperature: 0.5
+
+      # Nucleus sampling. Ollama default.
+      top_p: 0.9
+
+      # Room to hold source material and surrounding documentation.
+      num_ctx: 16384

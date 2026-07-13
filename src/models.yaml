@@ -60,6 +60,26 @@ profiles:
       # Room to hold source material and surrounding documentation.
       num_ctx: 16384
 
+    # Tuned for security analysis — threat modeling, risk assessment, and
+    # reasoning about adversarial paths through a decomposed system.
+    security-analysis:
+
+      # A reasoning-first cloud model, shared with technical-reasoning: security
+      # analysis is structured adversarial reasoning over system context.
+      from: deepseek-v4-flash:cloud
+
+      # Low-moderate temperature: rigorous and accurate, but with enough
+      # latitude to surface non-obvious attack paths rather than only the
+      # textbook ones.
+      temperature: 0.4
+
+      # Nucleus sampling. Ollama default.
+      top_p: 0.9
+
+      # Generous context to hold a whole system decomposition — components,
+      # data flows, trust boundaries, and assets — while assessing threats.
+      num_ctx: 32768
+
   # The workstation profile uses locally-installed models that run
   # comfortably on 32GB VRAM.
   workstation:
@@ -110,3 +130,22 @@ profiles:
 
       # Room to hold source material and surrounding documentation.
       num_ctx: 16384
+
+    # Tuned for security analysis — threat modeling, risk assessment, and
+    # reasoning about adversarial paths through a decomposed system.
+    security-analysis:
+
+      # Strong general-purpose reasoning model, shared with technical-reasoning.
+      from: qwen2.5:14b
+
+      # Low-moderate temperature: rigorous and accurate, but with enough
+      # latitude to surface non-obvious attack paths rather than only the
+      # textbook ones.
+      temperature: 0.4
+
+      # Nucleus sampling. Ollama default.
+      top_p: 0.9
+
+      # Generous context to hold a whole system decomposition — components,
+      # data flows, trust boundaries, and assets — while assessing threats.
+      num_ctx: 32768

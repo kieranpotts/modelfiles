@@ -87,8 +87,9 @@ profiles:
     # Tuned for computer programming work.
     computer-programming:
 
-      # Strong open coding model with broad language coverage.
-      from: qwen2.5-coder:14b
+      # Code-specialised model with broad language coverage. Includes tools
+      # support and thinking mode.
+      from: north-mini-code-1.0:latest
 
       # Low temperature for correct, deterministic output.
       temperature: 0.2

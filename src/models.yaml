@@ -1,19 +1,70 @@
 #
-# models.yaml — Configuration for the Ollama Modelfiles to be compiled.
+# models.yaml
+#
+# The Ollama Modelfiles are compiled from this configuration. This is the
+# single source-of-truth.
 #
 # The `profiles` define the models and their parameters to be installed on
-# one particular machine. There MUST be at least one profile, named "default",
-# which should define Modelfiles appropriate for running on laptops and other
-# hardware that is not capable of running models locally.
+# one particular target machine. There MUST be at least one profile, named
+# "default", which should define Modelfiles appropriate for running on laptops
+# and other general-purpose consumer hardware.
+#
+# See this project's README for descriptions of the target use cases for
+# each model, eg. the difference in capabilities between `workflow-basic`
+# and `workflow-standard`.
 #
 
 profiles:
 
-  # The default profile uses cloud models exclusively.
+  # The default profile exclusively uses cloud models.
   default:
 
-    # Tuned for computer programming work.
-    computer-programming:
+    workflow-basic:
+
+      # A small general-purpose instruction cloud model.
+      from: gemma4:cloud
+
+      # A very low temperature means the model will do as it's told, predictably,
+      # without embellishing.
+      temperature: 0.1
+
+      # Nucleus sampling. (0.9 is Ollama's default.)
+      top_p: 0.9
+
+      # Modest context to hold an instruction and its input.
+      num_ctx: 8192
+
+    workflow-standard:
+
+      # A reasoning-first cloud model.
+      from: deepseek-v4-flash:cloud
+
+      # A low temperature means conventions are applied, not reinterpreted.
+      temperature: 0.3
+
+      # Nucleus sampling. (0.9 is Ollama's default.)
+      top_p: 0.9
+
+      # Room for the target document, a diff, and the tool output.
+      num_ctx: 32768
+
+    code-basic:
+
+      # A code-specialized cloud model.
+      from: kimi-k2.7-code:cloud
+
+      # A very low temperature means the model will apply the known correction
+      # and not invent its own solution.
+      temperature: 0.1
+
+      # Nucleus sampling. (0.9 is Ollama's default.)
+      top_p: 0.9
+
+      # Only a small window is needed as basic coding tasks are expected
+      # to be scoped to a file or comment thread.
+      num_ctx: 8192
+
+    code-standard:
 
       # Ollama's headline agentic coding cloud model.
       from: kimi-k2.7-code:cloud
@@ -21,51 +72,80 @@ profiles:
       # Low temperature for correct, deterministic output.
       temperature: 0.2
 
-      # Nucleus sampling. Ollama default.
+      # Nucleus sampling. (0.9 is Ollama's default.)
       top_p: 0.9
 
       # Generous context window for the most demanding of coding tasks.
       num_ctx: 32768
 
-    # Tuned for structured technical reasoning.
-    technical-reasoning:
+    analysis-standard:
 
-      # A reasoning-first cloud model with a very large (~1M token) context.
-      # The "flash" variant keeps it efficient rather than frontier-slow.
+      # A reasoning-first cloud model. The "flash" variant keeps turn latency
+      # low, which matters when the skill is a back-and-forth with the user.
       from: deepseek-v4-flash:cloud
 
-      # Balanced temperature to explore options without drifting from requirements.
+      # Balanced temperature to explore options without drifting from
+      # requirements.
       temperature: 0.5
 
-      # Nucleus sampling. Ollama default.
+      # Nucleus sampling. (0.9 is Ollama's default.)
       top_p: 0.9
 
       # Room to reason over requirements, a design, and system context.
-      num_ctx: 16384
+      num_ctx: 32768
 
-    # Tuned for writing clear, accurate English prose.
-    prose-writing:
+    analysis-deep:
+
+      # The same reasoning-first cloud model. Its very large (~1M token)
+      # context window is suited to deep thought.
+      from: deepseek-v4-flash:cloud
+
+      # Balanced temperature to explore options without drifting from
+      # requirements.
+      temperature: 0.5
+
+      # Nucleus sampling. (0.9 is Ollama's default.)
+      top_p: 0.9
+
+      # A very large window to accommodate a whole codebase and gather research
+      # from multiple sources, without experiencing silent truncation.
+      num_ctx: 131072
+
+    prose-standard:
 
       # A general-purpose instruction cloud model that is known for outputting
-      #  strong, fluent prose. Frontier scale is not needed for this use case.
+      # strong, fluent prose.
+      from: gemma4:cloud
+
+      # Low temperature: conservative edits, faithful summaries.
+      temperature: 0.3
+
+      # Nucleus sampling. (0.9 is Ollama's default.)
+      top_p: 0.9
+
+      # Enough for a document and its surrounding context.
+      num_ctx: 8192
+
+    prose-deep:
+
+      # A general-purpose instruction cloud model that is known for outputting
+      # strong, fluent prose.
       from: gemma4:cloud
 
       # Moderate temperature for readable, natural prose without drifting
-      # into invention — accuracy matters more than style.
+      # into invention (prioritizing accuracy over style).
       temperature: 0.5
 
-      # Nucleus sampling. Ollama default.
+      # Nucleus sampling. (0.9 is Ollama's default.)
       top_p: 0.9
 
-      # Room to hold source material and surrounding documentation.
-      num_ctx: 16384
+      # Room to hold source material, a template, and surrounding docs.
+      num_ctx: 32768
 
-    # Tuned for security analysis — threat modeling, risk assessment, and
-    # reasoning about adversarial paths through a decomposed system.
-    security-analysis:
+    security-deep:
 
-      # A reasoning-first cloud model, shared with technical-reasoning: security
-      # analysis is structured adversarial reasoning over system context.
+      # A reasoning-first cloud model. Security work is structured adversarial
+      # reasoning over system context.
       from: deepseek-v4-flash:cloud
 
       # Low-moderate temperature: rigorous and accurate, but with enough
@@ -73,90 +153,144 @@ profiles:
       # textbook ones.
       temperature: 0.4
 
-      # Nucleus sampling. Ollama default.
+      # Nucleus sampling. (0.9 is Ollama's default.)
       top_p: 0.9
 
       # Generous context to hold a whole system decomposition — components,
       # data flows, trust boundaries, and assets — while assessing threats.
       num_ctx: 32768
 
-    # Tuned for plain instruction-following — the cheap, fast workhorse for
-    # mechanical tasks: reformatting, extraction, summarizing, boilerplate,
-    # routing. No domain expertise and no judgment calls are expected of it.
-    instruction-following:
-
-      # A small general-purpose instruction cloud model. Shared with
-      # prose-writing: it is the cheapest and fastest model in the set, and
-      # frontier capability is wasted on mechanical work.
-      from: gemma4:cloud
-
-      # Very low temperature: do as told, predictably, without embellishing.
-      temperature: 0.1
-
-      # Nucleus sampling. Ollama default.
-      top_p: 0.9
-
-      # Modest context — these tasks carry an instruction and its input,
-      # not a whole codebase. Keeps the model cheap and fast.
-      num_ctx: 8192
-
   # The workstation profile uses locally-installed models that run
   # comfortably on 32GB VRAM.
   workstation:
 
-    # Tuned for computer programming work.
-    computer-programming:
+    workflow-basic:
 
-      # Code-specialised model with broad language coverage. Includes tools
+      # A small local instruction model.
+      from: llama3.2:3b
+
+      # Very low temperature: do as told, predictably, without embellishing.
+      temperature: 0.1
+
+      # Nucleus sampling. (0.9 is Ollama's default.)
+      top_p: 0.9
+
+      # Modest context to hold an instruction and its input.
+      num_ctx: 8192
+
+    workflow-standard:
+
+      # Strong general-purpose reasoning model.
+      from: qwen2.5:14b
+
+      # A low temperature means conventions are applied, not reinterpreted.
+      temperature: 0.3
+
+      # Nucleus sampling. (0.9 is Ollama's default.)
+      top_p: 0.9
+
+      # Room for the target document, a diff, and the tool output.
+      num_ctx: 32768
+
+    code-basic:
+
+      # The code-specialized model.
+      from: north-mini-code-1.0:latest
+
+      # A very low temperature means the model will apply the known correction
+      # and not invent its own solution.
+      temperature: 0.1
+
+      # Nucleus sampling. (0.9 is Ollama's default.)
+      top_p: 0.9
+
+      # Only a small window is needed as basic coding tasks are expected
+      # to be scoped to a file or comment thread.
+      num_ctx: 8192
+
+    code-standard:
+
+      # Code-specialized model with broad language coverage. Includes tools
       # support and thinking mode.
       from: north-mini-code-1.0:latest
 
       # Low temperature for correct, deterministic output.
       temperature: 0.2
 
-      # Nucleus sampling. Ollama default.
+      # Nucleus sampling. (0.9 is Ollama's default.)
       top_p: 0.9
 
       # Generous context window for the most demanding of coding tasks.
       num_ctx: 32768
 
-    # Tuned for structured technical reasoning.
-    technical-reasoning:
+    analysis-standard:
 
       # Strong general-purpose reasoning model.
       from: qwen2.5:14b
 
-      # Balanced temperature to explore options without drifting from requirements.
+      # Balanced temperature to explore options without drifting from
+      # requirements.
       temperature: 0.5
 
-      # Nucleus sampling. Ollama default.
+      # Nucleus sampling. (0.9 is Ollama's default.)
       top_p: 0.9
 
-      # Large context window, room to reason over requirements etc.
-      num_ctx: 16384
+      # Room to reason over requirements, a design, and system context.
+      num_ctx: 32768
 
-    # Tuned for writing clear, accurate English prose.
-    prose-writing:
+    analysis-deep:
+
+      # A cloud model, rather than a local one, is deliberately chosen here.
+      # Even if a suitable local model can fit in the VRAM, the KV cache size
+      # required for a 128k context window can soon blow the VRAM and spill
+      # into system RAM.
+      from: deepseek-v4-flash:cloud
+
+      # Balanced temperature to explore options without drifting from
+      # requirements.
+      temperature: 0.5
+
+      # Nucleus sampling. (0.9 is Ollama's default.)
+      top_p: 0.9
+
+      # A very large window to accommodate a whole codebase and gather research
+      # from multiple sources, without experiencing silent truncation.
+      num_ctx: 131072
+
+    prose-standard:
 
       # General-purpose instruction model with strong, fluent prose output
       # and good reasoning over natural language.
       from: llama3.1:8b
 
-      # Moderate temperature to output readable, nature prose without drifting
-      # into inventions — accuracy matters more than style.
-      temperature: 0.5
+      # Low temperature: conservative edits, faithful summaries.
+      temperature: 0.3
 
-      # Nucleus sampling. Ollama default.
+      # Nucleus sampling. (0.9 is Ollama's default.)
       top_p: 0.9
 
-      # Room to hold source material and surrounding documentation.
-      num_ctx: 16384
+      # Enough for a document and its surrounding context.
+      num_ctx: 8192
 
-    # Tuned for security analysis — threat modeling, risk assessment, and
-    # reasoning about adversarial paths through a decomposed system.
-    security-analysis:
+    prose-deep:
 
-      # Strong general-purpose reasoning model, shared with technical-reasoning.
+      # General-purpose instruction model with strong, fluent prose output
+      # and good reasoning over natural language.
+      from: llama3.1:8b
+
+      # Moderate temperature for readable, natural prose without drifting
+      # into invention (prioritizing accuracy over style).
+      temperature: 0.5
+
+      # Nucleus sampling. (0.9 is Ollama's default.)
+      top_p: 0.9
+
+      # Room to hold source material, a template, and surrounding docs.
+      num_ctx: 32768
+
+    security-deep:
+
+      # Strong general-purpose reasoning model.
       from: qwen2.5:14b
 
       # Low-moderate temperature: rigorous and accurate, but with enough
@@ -164,29 +298,9 @@ profiles:
       # textbook ones.
       temperature: 0.4
 
-      # Nucleus sampling. Ollama default.
+      # Nucleus sampling. (0.9 is Ollama's default.)
       top_p: 0.9
 
       # Generous context to hold a whole system decomposition — components,
       # data flows, trust boundaries, and assets — while assessing threats.
       num_ctx: 32768
-
-    # Tuned for plain instruction-following — the cheap, fast workhorse for
-    # mechanical tasks: reformatting, extraction, summarizing, boilerplate,
-    # routing. No domain expertise and no judgment calls are expected of it.
-    instruction-following:
-
-      # A small local instruction model. Deliberately the smallest model in
-      # the profile: it runs fast, leaves VRAM free for the larger models,
-      # and mechanical work needs nothing bigger.
-      from: llama3.2:3b
-
-      # Very low temperature: do as told, predictably, without embellishing.
-      temperature: 0.1
-
-      # Nucleus sampling. Ollama default.
-      top_p: 0.9
-
-      # Modest context — these tasks carry an instruction and its input,
-      # not a whole codebase. Keeps the model cheap and fast.
-      num_ctx: 8192

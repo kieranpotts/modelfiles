@@ -73,8 +73,27 @@ SHOULD NOT, OPTIONAL, and MAY are to be interpreted as described in
 
 - A model MUST be named for the capability it provides, not for a role.
 
+- A model name MUST take the form `<domain>-<tier>`.
+
+  The **domain** is the material the model works over, and therefore what it
+  has to be good at: `workflow`, `code`, `analysis`, `prose`, `security`.
+
+  The **tier** is how much model the work needs: `basic`, `standard`, `deep`.
+  The tier bundles judgment depth together with context and cost. Deeper work
+  needs bigger, more capable models.
+
+- Capabilities MAY share a `from` base model, differing only in their
+  parameters.
+
 - A `from` base model SHOULD be available from the
   [Ollama library](https://ollama.com/library) or locally.
+
+- A `num_ctx` above ~32768 SHOULD use a cloud base model, even inside an
+  otherwise-local profile.
+
+  The KV cache scales with the context window and quickly exceeds the size of
+  the weights. A 128k window costs roughly 20GB even on an 8B model. Once the
+  cache spills out of VRAM and into system RAM, throughput collapses.
 
 - The compiler MAY emit only valid Modelfile instructions: `FROM`, `PARAMETER`,
   `TEMPLATE`, `SYSTEM`, `ADAPTER`, `LICENSE`, `MESSAGE`, `REQUIRES`.

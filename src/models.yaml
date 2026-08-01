@@ -10,8 +10,8 @@
 # and other general-purpose consumer hardware.
 #
 # See this project's README for descriptions of the target use cases for
-# each model, eg. the difference in capabilities between `workflow-basic`
-# and `workflow-standard`.
+# each model, eg. the difference in capabilities between `WORKFLOW_BASIC`
+# and `WORKFLOW_STANDARD`.
 #
 
 profiles:
@@ -19,7 +19,7 @@ profiles:
   # The default profile exclusively uses cloud models.
   default:
 
-    workflow-basic:
+    WORKFLOW_BASIC:
 
       # A small general-purpose instruction cloud model.
       from: gemma4:cloud
@@ -34,7 +34,7 @@ profiles:
       # Modest context to hold an instruction and its input.
       num_ctx: 8192
 
-    workflow-standard:
+    WORKFLOW_STANDARD:
 
       # A reasoning-first cloud model.
       from: deepseek-v4-flash:cloud
@@ -48,7 +48,7 @@ profiles:
       # Room for the target document, a diff, and the tool output.
       num_ctx: 32768
 
-    code-basic:
+    CODE_BASIC:
 
       # A code-specialized cloud model.
       from: kimi-k2.7-code:cloud
@@ -64,7 +64,7 @@ profiles:
       # to be scoped to a file or comment thread.
       num_ctx: 8192
 
-    code-standard:
+    CODE_STANDARD:
 
       # Ollama's headline agentic coding cloud model.
       from: kimi-k2.7-code:cloud
@@ -78,7 +78,7 @@ profiles:
       # Generous context window for the most demanding of coding tasks.
       num_ctx: 32768
 
-    analysis-standard:
+    ANALYSIS_STANDARD:
 
       # A reasoning-first cloud model. The "flash" variant keeps turn latency
       # low, which matters when the skill is a back-and-forth with the user.
@@ -94,7 +94,7 @@ profiles:
       # Room to reason over requirements, a design, and system context.
       num_ctx: 32768
 
-    analysis-deep:
+    ANALYSIS_DEEP:
 
       # The same reasoning-first cloud model. Its very large (~1M token)
       # context window is suited to deep thought.
@@ -111,7 +111,7 @@ profiles:
       # from multiple sources, without experiencing silent truncation.
       num_ctx: 131072
 
-    prose-standard:
+    PROSE_STANDARD:
 
       # A general-purpose instruction cloud model that is known for outputting
       # strong, fluent prose.
@@ -126,7 +126,7 @@ profiles:
       # Enough for a document and its surrounding context.
       num_ctx: 8192
 
-    prose-deep:
+    PROSE_DEEP:
 
       # A general-purpose instruction cloud model that is known for outputting
       # strong, fluent prose.
@@ -142,7 +142,7 @@ profiles:
       # Room to hold source material, a template, and surrounding docs.
       num_ctx: 32768
 
-    security-deep:
+    SECURITY_DEEP:
 
       # A reasoning-first cloud model. Security work is structured adversarial
       # reasoning over system context.
@@ -164,7 +164,7 @@ profiles:
   # comfortably on 32GB VRAM.
   workstation:
 
-    workflow-basic:
+    WORKFLOW_BASIC:
 
       # A small local instruction model.
       from: llama3.2:3b
@@ -178,7 +178,7 @@ profiles:
       # Modest context to hold an instruction and its input.
       num_ctx: 8192
 
-    workflow-standard:
+    WORKFLOW_STANDARD:
 
       # Strong general-purpose reasoning model.
       from: qwen2.5:14b
@@ -192,7 +192,7 @@ profiles:
       # Room for the target document, a diff, and the tool output.
       num_ctx: 32768
 
-    code-basic:
+    CODE_BASIC:
 
       # The code-specialized model.
       from: north-mini-code-1.0:latest
@@ -208,7 +208,7 @@ profiles:
       # to be scoped to a file or comment thread.
       num_ctx: 8192
 
-    code-standard:
+    CODE_STANDARD:
 
       # Code-specialized model with broad language coverage. Includes tools
       # support and thinking mode.
@@ -223,7 +223,7 @@ profiles:
       # Generous context window for the most demanding of coding tasks.
       num_ctx: 32768
 
-    analysis-standard:
+    ANALYSIS_STANDARD:
 
       # Strong general-purpose reasoning model.
       from: qwen2.5:14b
@@ -238,7 +238,7 @@ profiles:
       # Room to reason over requirements, a design, and system context.
       num_ctx: 32768
 
-    analysis-deep:
+    ANALYSIS_DEEP:
 
       # A cloud model, rather than a local one, is deliberately chosen here.
       # Even if a suitable local model can fit in the VRAM, the KV cache size
@@ -257,7 +257,7 @@ profiles:
       # from multiple sources, without experiencing silent truncation.
       num_ctx: 131072
 
-    prose-standard:
+    PROSE_STANDARD:
 
       # General-purpose instruction model with strong, fluent prose output
       # and good reasoning over natural language.
@@ -272,7 +272,7 @@ profiles:
       # Enough for a document and its surrounding context.
       num_ctx: 8192
 
-    prose-deep:
+    PROSE_DEEP:
 
       # General-purpose instruction model with strong, fluent prose output
       # and good reasoning over natural language.
@@ -288,7 +288,7 @@ profiles:
       # Room to hold source material, a template, and surrounding docs.
       num_ctx: 32768
 
-    security-deep:
+    SECURITY_DEEP:
 
       # Strong general-purpose reasoning model.
       from: qwen2.5:14b

@@ -73,14 +73,18 @@ SHOULD NOT, OPTIONAL, and MAY are to be interpreted as described in
 
 - A model MUST be named for the capability it provides, not for a role.
 
-- A model name MUST take the form `<domain>-<tier>`.
+- A model name MUST take the form `<DOMAIN>_<TIER>`, in upper snake case.
 
   The **domain** is the material the model works over, and therefore what it
-  has to be good at: `workflow`, `code`, `analysis`, `prose`, `security`.
+  has to be good at: `WORKFLOW`, `CODE`, `ANALYSIS`, `PROSE`, `SECURITY`.
 
-  The **tier** is how much model the work needs: `basic`, `standard`, `deep`.
+  The **tier** is how much model the work needs: `BASIC`, `STANDARD`, `DEEP`.
   The tier bundles judgment depth together with context and cost. Deeper work
   needs bigger, more capable models.
+
+  Upper snake case is a deliberate choice. Base models from the Ollama library
+  are lowercase by convention, so the casing alone distinguishes a custom
+  capability model from its underlying base model in `ollama list`.
 
 - Capabilities MAY share a `from` base model, differing only in their
   parameters.

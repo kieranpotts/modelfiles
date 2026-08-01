@@ -80,6 +80,26 @@ profiles:
       # data flows, trust boundaries, and assets — while assessing threats.
       num_ctx: 32768
 
+    # Tuned for plain instruction-following — the cheap, fast workhorse for
+    # mechanical tasks: reformatting, extraction, summarizing, boilerplate,
+    # routing. No domain expertise and no judgment calls are expected of it.
+    instruction-following:
+
+      # A small general-purpose instruction cloud model. Shared with
+      # prose-writing: it is the cheapest and fastest model in the set, and
+      # frontier capability is wasted on mechanical work.
+      from: gemma4:cloud
+
+      # Very low temperature: do as told, predictably, without embellishing.
+      temperature: 0.1
+
+      # Nucleus sampling. Ollama default.
+      top_p: 0.9
+
+      # Modest context — these tasks carry an instruction and its input,
+      # not a whole codebase. Keeps the model cheap and fast.
+      num_ctx: 8192
+
   # The workstation profile uses locally-installed models that run
   # comfortably on 32GB VRAM.
   workstation:
@@ -150,3 +170,23 @@ profiles:
       # Generous context to hold a whole system decomposition — components,
       # data flows, trust boundaries, and assets — while assessing threats.
       num_ctx: 32768
+
+    # Tuned for plain instruction-following — the cheap, fast workhorse for
+    # mechanical tasks: reformatting, extraction, summarizing, boilerplate,
+    # routing. No domain expertise and no judgment calls are expected of it.
+    instruction-following:
+
+      # A small local instruction model. Deliberately the smallest model in
+      # the profile: it runs fast, leaves VRAM free for the larger models,
+      # and mechanical work needs nothing bigger.
+      from: llama3.2:3b
+
+      # Very low temperature: do as told, predictably, without embellishing.
+      temperature: 0.1
+
+      # Nucleus sampling. Ollama default.
+      top_p: 0.9
+
+      # Modest context — these tasks carry an instruction and its input,
+      # not a whole codebase. Keeps the model cheap and fast.
+      num_ctx: 8192

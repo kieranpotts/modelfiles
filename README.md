@@ -32,6 +32,9 @@ Models are named `<DOMAIN>_<TIER>`. The **domain** is the material the model
 works over. The **tier** is how much model the work needs to do. Deeper work
 needs a more capable, bigger model.
 
+<!-- NOTE: This table needs to be kept synchronized with skills → create-skill
+→ reference: choosing the preferred model. -->
+
 | Capability          | Use cases                                                                   |
 | ------------------- | --------------------------------------------------------------------------- |
 | `WORKFLOW_BASIC`    | Workloads that run a fixed procedure requiring no judgment.                 |
@@ -84,7 +87,8 @@ Next, create a custom model in Ollama from one of the compiled Modelfiles:
 ollama create <model-name> -f ./dist/<profile>/<model-name>/Modelfile
 ```
 
-Repeat for each of the Modelfiles you want to use.
+Repeat for each of the Modelfiles you want to use. Ollama will pull any base
+models defined in the Modelfile.
 
 Run the model directly in Ollama as you would any other model:
 

@@ -2,6 +2,24 @@
 
 **Custom model definitions for running in [Ollama](https://ollama.com).**
 
+> [!IMPORTANT]
+> This project is no longer maintained. Ollama's system for defining custom
+> model works well for extending open-weight models with custom parameters
+> when those models are downloaded and run locally. Unfortunately, when you
+> use `ollama create` to build on cloud models (eg. `FROM deepseek-v4-flash:cloud`)
+> the custom models do not inherit the parent model's configuration (eg. context
+> length) or capability metadata (eg. tools, thinking).
+>
+> In effect, custom models defined on a laptop but actually backed by cloud
+> models have very limited capabilities — they're good only for using in
+> `ollama run` but not in coding agent harnesses.
+>
+> This project could be revisited in the future if `ollama`'s capabilities
+> are extended to support this use case. Related issues:
+>
+> https://github.com/ollama/ollama/issues/16891
+> https://github.com/ollama/ollama/pull/16956
+
 Each model is defined by an Ollama [Modelfile][modelfile-spec],
 a plain-text recipe that takes a base model and tunes it into a reusable
 capability.

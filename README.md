@@ -17,8 +17,8 @@
 > This project could be revisited in the future if `ollama`'s capabilities
 > are extended to support this use case. Related issues:
 >
-> https://github.com/ollama/ollama/issues/16891
-> https://github.com/ollama/ollama/pull/16956
+> - https://github.com/ollama/ollama/issues/16891
+> - https://github.com/ollama/ollama/pull/16956
 
 Each model is defined by an Ollama [Modelfile][modelfile-spec],
 a plain-text recipe that takes a base model and tunes it into a reusable
